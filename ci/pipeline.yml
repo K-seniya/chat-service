@@ -28,3 +28,5 @@ jobs:
       - put: deploy-cf
         params:
           manifest: build-output/manifest.yml
+          environment_variables:
+            SPRING_PROFILES_ACTIVE: ((dev-env))
