@@ -66,6 +66,7 @@ export default class ChatBoxComponent extends Component {
       {},
       JSON.stringify({ sender: this.state.username, type: 'JOIN' })
     )
+
   }
 
   onError = (error) => {
@@ -79,7 +80,7 @@ export default class ChatBoxComponent extends Component {
     if (stompClient) {
       var chatMessage = {
         sender: this.state.username,
-        content: type === 'TYPING' ? value : value,
+        content: value,
         type: type
 
       };
@@ -184,6 +185,27 @@ export default class ChatBoxComponent extends Component {
   }
 
   componentDidMount() {
+
+    console.log("componentDidMount start");
+    fetch("http://localhost:8080/message/")
+        .then(res => res.json())
+        .then(
+
+            (result) => {
+              if (result.content.length > 0) {
+                this.setState({
+                  broadcastMessage: result.content
+                });
+              }
+            },
+            (error) => {
+              console.log("got error" + error);
+              this.setState({
+                error: 'Could not get messages!'
+              });
+            }
+        )
+
     this.setState({
       curTime: new Date().toLocaleString()
     })
@@ -197,6 +219,8 @@ export default class ChatBoxComponent extends Component {
 
   }
   render() {
+
+    console.log("this.state.broadcastMessage : " + this.state.broadcastMessage);
 
     return (
       <div id="container">
@@ -233,7 +257,7 @@ export default class ChatBoxComponent extends Component {
                       </div>
                       <div className="triangle"></div>
                       <div className="message">
-                        {msg.message}
+                        {msg.message ? msg.message : msg.content}
                       </div>
                       <div><h3>{msg.dateTime}</h3></div>
                     </li>
@@ -248,7 +272,7 @@ export default class ChatBoxComponent extends Component {
                       </div>
                       <div className="triangle"></div>
                       <div className="message">
-                        {msg.message}
+                        {msg.message ? msg.message : msg.content}
                       </div>
                       <div><h3>{msg.dateTime}</h3></div>
                     </li>

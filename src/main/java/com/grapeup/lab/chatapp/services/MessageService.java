@@ -1,6 +1,7 @@
 package com.grapeup.lab.chatapp.services;
 
 import com.grapeup.lab.chatapp.entities.Message;
+import com.grapeup.lab.chatapp.entities.MessageType;
 import com.grapeup.lab.chatapp.repositories.MessageRepository;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,9 @@ public class MessageService {
     }
 
     public Message create(Message message) {
+        if (MessageType.TYPING == message.getType()) {
+            return message;
+        }
         return messageRepository.save(message);
     }
 

@@ -3,23 +3,29 @@ package com.grapeup.lab.chatapp.entities;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Document(indexName = "message", type = "message", shards = 1, replicas = 0, refreshInterval = "-1")
-public class Message {
+public class Message implements Serializable {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private MessageType type;
     private String room;
     private String sender;
-    private LocalDateTime dateTime= LocalDateTime.now();
+    private Date dateTime;
     private String content;
 
-    public enum MessageType {
-        CHAT,
-        JOIN,
-        LEAVE,
-        TYPING
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public MessageType getType() {
@@ -28,14 +34,6 @@ public class Message {
 
     public void setType(MessageType type) {
         this.type = type;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getRoom() {
@@ -54,8 +52,12 @@ public class Message {
         this.sender = sender;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public Date getDateTime() {
+        return dateTime == null ? new Date() : dateTime;
+    }
+
+    public void setDateTime(Date dateTime) {
+        this.dateTime = dateTime;
     }
 
     public String getContent() {
