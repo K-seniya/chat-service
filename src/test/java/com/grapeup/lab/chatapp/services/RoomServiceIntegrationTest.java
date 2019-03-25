@@ -41,7 +41,7 @@ public class RoomServiceIntegrationTest {
         repository.save(room);
 
         // WHEN
-        Room result = repository.findByNameAndPassword("Jokes", "345");
+        Room result = repository.findByRoomNameAndPassword("Jokes", "345");
 
         // THEN
         assertThat(result).extracting(Room::getPassword).isEqualTo("345");
@@ -54,7 +54,7 @@ public class RoomServiceIntegrationTest {
         repository.save(room);
 
         // WHEN
-        Room result = repository.findByNameAndPassword("JokesWithoutPassword", null);
+        Room result = repository.findByRoomNameAndPassword("JokesWithoutPassword", null);
 
         // THEN
         assertThat(result).isNotNull();
@@ -67,10 +67,10 @@ public class RoomServiceIntegrationTest {
         repository.save(room);
 
         // WHEN
-        repository.deleteByNameAndPassword("Spam", "345");
+        repository.deleteByRoomNameAndPassword("Spam", "345");
 
         // THEN
-        assertThat(repository.findByNameAndPassword("Spam", "345")).isNull();
+        assertThat(repository.findByRoomNameAndPassword("Spam", "345")).isNull();
     }
 
     @Test
@@ -80,10 +80,10 @@ public class RoomServiceIntegrationTest {
         repository.save(room);
 
         // WHEN
-        repository.deleteByNameAndPassword("SpamWithoutPassword", null);
+        repository.deleteByRoomNameAndPassword("SpamWithoutPassword", null);
 
         // THEN
-        assertThat(repository.findByNameAndPassword("SpamWithoutPassword", null)).isNull();
+        assertThat(repository.findByRoomNameAndPassword("SpamWithoutPassword", null)).isNull();
     }
 
     @Test(expected = DuplicateKeyException.class)

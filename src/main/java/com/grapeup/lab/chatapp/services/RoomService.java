@@ -23,7 +23,7 @@ public class RoomService {
     }
 
     public boolean isExist(Room room) {
-        return roomRepository.findByNameAndPassword(room.getName(), room.getPassword()) != null;
+        return roomRepository.findByRoomNameAndPassword(room.getName(), room.getPassword()) != null;
     }
 
     public Room createRoom(Room room) {
@@ -31,6 +31,6 @@ public class RoomService {
     }
 
     public boolean deleteRoom(Room room) {
-        return roomRepository.deleteByNameAndPassword(room.getName(), room.getPassword()) > 0L;
+        return roomRepository.deleteByRoomNameAndPassword(room.getName(), room.getPassword()) > 0L;
     }
 }

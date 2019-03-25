@@ -20,7 +20,11 @@ public class MessageService {
         return messageRepository.save(message);
     }
 
-    public Iterable<Message> getAll() {
-         return messageRepository.findAll();
+    public Iterable<Message> getAll(String roomName) {
+         return messageRepository.findByRoom(roomName);
+    }
+
+    public Long removeAll(String roomName) {
+        return messageRepository.deleteByRoom(roomName);
     }
 }

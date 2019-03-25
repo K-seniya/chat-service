@@ -6,8 +6,8 @@ import org.springframework.data.mongodb.repository.Query;
 
 public interface RoomRepository extends MongoRepository<Room, String> {
     @Query("{ 'name' : ?0 , 'password' : ?1}")
-    Room findByNameAndPassword(String roomName, String password);
+    Room findByRoomNameAndPassword(String roomName, String password);
 
     @Query(value="{'name' : ?0, 'password' : ?1 }", delete = true)
-    Long deleteByNameAndPassword(String roomName, String password);
+    Long deleteByRoomNameAndPassword(String roomName, String password);
 }

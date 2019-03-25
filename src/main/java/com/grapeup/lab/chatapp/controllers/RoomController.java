@@ -1,6 +1,7 @@
 package com.grapeup.lab.chatapp.controllers;
 
 import com.grapeup.lab.chatapp.entities.Room;
+import com.grapeup.lab.chatapp.services.MessageService;
 import com.grapeup.lab.chatapp.services.RoomService;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,9 +9,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/room")
 public class RoomController {
     private RoomService roomService;
+    private MessageService messageService;
 
-    public RoomController(RoomService roomService) {
+    public RoomController(RoomService roomService, MessageService messageService) {
         this.roomService = roomService;
+        this.messageService = messageService;
     }
 
     @PostMapping(value= "/create")
@@ -20,6 +23,7 @@ public class RoomController {
 
     @PostMapping(value = "/delete")
     public boolean delete(@RequestBody Room room) {
+        messageService.removeAll(room.getName());
         return roomService.deleteRoom(room);
     }
 
