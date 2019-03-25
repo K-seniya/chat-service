@@ -3,16 +3,17 @@ package com.grapeup.lab.chatapp.entities;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Document(indexName = "message", type = "message", shards = 1, replicas = 0, refreshInterval = "-1")
 public class Message implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
     private MessageType type;
     private String room;

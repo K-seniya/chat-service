@@ -13,13 +13,19 @@ public class RoomController {
         this.roomService = roomService;
     }
 
-    @GetMapping(value = "/{id}")
-    public Room getRoom(@PathVariable String id){
-        return null;
-    }
-
     @PostMapping(value= "/create")
     public Room create(@RequestBody Room room) {
         return roomService.createRoom(room);
     }
+
+    @PostMapping(value = "/delete")
+    public boolean delete(@RequestBody Room room) {
+        return roomService.deleteRoom(room);
+    }
+
+    @PostMapping("/")
+    public boolean isExist(@RequestBody Room room) {
+        return roomService.isExist(room);
+    }
+
 }

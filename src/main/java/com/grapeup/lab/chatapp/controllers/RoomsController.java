@@ -1,6 +1,5 @@
 package com.grapeup.lab.chatapp.controllers;
 
-import com.grapeup.lab.chatapp.entities.Room;
 import com.grapeup.lab.chatapp.services.RoomService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +17,7 @@ public class RoomsController {
     }
 
     @GetMapping("/")
-    public List<Room> getAll() {
-        return roomService.getAll();
+    public List<String> getAll() {
+        return roomService.getAllRooms();
     }
 }
