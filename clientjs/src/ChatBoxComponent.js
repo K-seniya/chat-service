@@ -192,7 +192,7 @@ export default class ChatBoxComponent extends Component {
         .then(
 
             (result) => {
-              if (result.content.length > 0) {
+              if (result && result.content && result.content.length > 0) {
                 this.setState({
                   broadcastMessage: result.content
                 });
