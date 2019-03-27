@@ -46,11 +46,11 @@ export default class MenuAppBar extends React.Component {
           </Toolbar>
           <div>
 
-            <Badge className="badge" badgeContent={this.props.roomNotification.length} color="secondary" onClick={this.handleOpenNotifications}>
-              <BellIcon active={this.props.bellRing} animate={this.props.bellRing} color="white" width="25px" />
-            </Badge>
-            <Notifications open={this.state.openNotifications} handleClose={this.handleCloseNotifications}
-              notifications={this.props.roomNotification} roomMessages={this.props.broadcastMessage} />
+            {/*<Badge className="badge" badgeContent={this.props.roomNotification.length} color="secondary" onClick={this.handleOpenNotifications}>*/}
+              {/*<BellIcon active={this.props.bellRing} animate={this.props.bellRing} color="white" width="25px" />*/}
+            {/*</Badge>*/}
+            {/*<Notifications open={this.state.openNotifications} handleClose={this.handleCloseNotifications}*/}
+              {/*notifications={this.props.roomNotification} roomMessages={this.props.broadcastMessage} />*/}
 
           </div>
         </AppBar>

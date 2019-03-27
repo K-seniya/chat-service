@@ -13,14 +13,9 @@ public class MessageController {
         this.messageService = messageService;
     }
 
-    @GetMapping(value = "/")
-    public Iterable<Message> getAll(@RequestParam String roomName) {
+    @PostMapping(value = "/")
+    public Iterable<Message> getAll(@RequestBody String roomName) {
         return messageService.getAll(roomName);
-    }
-
-    @PostMapping(value = "/create")
-    public Message createMessage(@RequestBody Message message) {
-        return messageService.create(message);
     }
 
     @PostMapping(value = "/remove/{name}")

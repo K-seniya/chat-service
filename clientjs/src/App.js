@@ -22,12 +22,11 @@ class App extends Component {
     window.location.reload();
   }
 
-  handleLogin = (room, user, stompClient) => {
+  handleLogin = (room, user) => {
     this.setState({
       isChatMode: true,
       room: room,
-      user: user,
-      stompClient: stompClient
+      user: user
     });
   }
 
@@ -38,8 +37,8 @@ class App extends Component {
       buttonType={['', 'primary', '', '']} buttonLabel={['', 'Refresh', '', '']} modal={true} autoScrollBodyContent={false}
       customContentStyle={null} onClick={this.refreshPage}>
          {this.state.isChatMode ?
-             ( <ChatBox room={this.state.room} user={this.state.user} stompClient={this.state.stompClient}/>)
-             : ( <RoomBoard onRoomLogin={this.handleLogin}/>)}
+             (<ChatBox room={this.state.room} user={this.state.user}/>)
+             : (<RoomBoard onRoomLogin={this.handleLogin}/>)}
        </ErrorBoundary>
 
     );
