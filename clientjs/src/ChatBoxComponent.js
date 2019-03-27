@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import Menu from './menu-app-bar/MenuAppBar'
 import Aside from './aside/Aside'
-import Login from './login/Login'
 import Footer from './footer/Footer'
 
 // Styling
@@ -16,6 +15,7 @@ var stompClient = null;
 export default class ChatBoxComponent extends Component {
   constructor(props) {
     super(props);
+    stompClient = this.props.stompClient;
     this.state =
       {
         username: '',
@@ -76,21 +76,14 @@ export default class ChatBoxComponent extends Component {
   }
 
   sendMessage = (type, value) => {
-
-    if (stompClient) {
-      var chatMessage = {
-        sender: this.state.username,
+      let chatMessage = {
+        sender: this.props.user,
         content: value,
         type: type
-
       };
-
       stompClient.send("/app/sendMessage", {}, JSON.stringify(chatMessage));
 
-      // clear message text box after sending the message
-
-    }
-  }
+  };
 
   onMessageReceived = (payload) => {
 
@@ -154,26 +147,13 @@ export default class ChatBoxComponent extends Component {
     else {
       // do nothing...
     }
-  }
-
-  fetchHostory = () => {
-    alert('History Not Available!\nIt is Not Yet Implemented!');
-  }
+  };
 
   scrollToBottom = () => {
     var object = this.refs.messageBox;
     if (object)
       object.scrollTop = object.scrollHeight;
-  }
-
-  // getRandomColor = () => {
-  //   var letters = '0123456789ABCDEF';
-  //   var color = '#';
-  //   for (var i = 0; i < 6; i++) {
-  //     color += letters[Math.floor(Math.random() * 16)];
-  //   }
-  //   return color;
-  // }
+  };
 
   componentDidUpdate() {
     if (this.state.error) {
@@ -185,27 +165,7 @@ export default class ChatBoxComponent extends Component {
   }
 
   componentDidMount() {
-
-    console.log("componentDidMount start");
-    fetch("http://localhost:8080/message/")
-        .then(res => res.json())
-        .then(
-
-            (result) => {
-              if (result && result.content && result.content.length > 0) {
-                this.setState({
-                  broadcastMessage: result.content
-                });
-              }
-            },
-            (error) => {
-              console.log("got error" + error);
-              this.setState({
-                error: 'Could not get messages!'
-              });
-            }
-        )
-
+    // add
     this.setState({
       curTime: new Date().toLocaleString()
     })
@@ -217,36 +177,39 @@ export default class ChatBoxComponent extends Component {
       10000
     );
 
+    this.connect(this.props.user);
+
+    this.getMessages();
   }
+
+  getMessages = () => {
+
+  };
+
   render() {
-
-    console.log("this.state.broadcastMessage : " + this.state.broadcastMessage);
-
+    console.log("this.props.user: " + this.props.user);
     return (
       <div id="container">
-        {this.state.channelConnected ?
+
           (
-
-
             <div>
               <Menu roomNotification={this.state.roomNotification}
                 bellRing={this.state.bellRing}
                 openNotifications={this.state.openNotifications}
-                username={this.state.username}
+                username={this.props.user}
                 broadcastMessage={this.state.broadcastMessage}/>
                 
               <Aside  roomNotification={this.state.roomNotification}
                 bellRing={this.state.bellRing}
                 openNotifications={this.state.openNotifications}
-                username={this.state.username}
+                username={this.props.user}
                 broadcastMessage={this.state.broadcastMessage} />
-             
-              
+
               <ul id="chat"  ref="messageBox">
                 {/* {this.state.broadcastMessage.length ?
                   [<div id="history"><div id="old" onClick={this.fetchHostory}>Older</div><hr /><div id="today">Today</div></div>] : ""} */}
                 {this.state.broadcastMessage.map((msg, i) =>
-                  this.state.username === msg.sender ?
+                    this.props.user === msg.sender ?
                     <li className="you" key={i}>
                       <div className="entete">
                         <h2><img src={userImage} alt="Default-User" className="avatar" />
@@ -284,9 +247,6 @@ export default class ChatBoxComponent extends Component {
             </div>
          
 
-          ) : (
-            <Login connect={this.connect} />
-            
           )
         }
       </div>

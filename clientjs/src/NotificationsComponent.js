@@ -18,9 +18,7 @@ export default class NotificationsComponent extends Component {
 
 
     render() {
-
         return <div>
-
             <Dialog
                 open={this.props.open}
                 onClose={this.props.handleClose}

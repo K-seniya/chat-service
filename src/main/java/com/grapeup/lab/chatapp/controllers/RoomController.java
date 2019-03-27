@@ -3,6 +3,8 @@ package com.grapeup.lab.chatapp.controllers;
 import com.grapeup.lab.chatapp.entities.Room;
 import com.grapeup.lab.chatapp.services.MessageService;
 import com.grapeup.lab.chatapp.services.RoomService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,7 +18,7 @@ public class RoomController {
         this.messageService = messageService;
     }
 
-    @PostMapping(value= "/create")
+    @PostMapping(value = "/create")
     public Room create(@RequestBody Room room) {
         return roomService.createRoom(room);
     }
@@ -28,8 +30,8 @@ public class RoomController {
     }
 
     @PostMapping("/")
-    public boolean isExist(@RequestBody Room room) {
-        return roomService.isExist(room);
+    public ResponseEntity<String> isExist(@RequestBody Room room) {
+        return roomService.isExist(room) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }
