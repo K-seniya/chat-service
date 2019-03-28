@@ -20,7 +20,8 @@
   },
   "proxy": {
     "/": {
-      "target": "http://localhost:8080"
+      "target": "https,://chat-service-appreciative-kudu.cfapps.io:80",
+      "ws": true
     }
   },
   "scripts": {

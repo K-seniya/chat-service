@@ -18,7 +18,7 @@ export default class RoomBoxComponent extends Component {
 
     // Load rooms from database
     loadRoomsFromServer() {
-        fetch('http://localhost:8080/rooms/')
+        fetch('/rooms/')
             .then((response) => response.json())
             .then((responseData) => {
                 this.setState({
@@ -48,7 +48,7 @@ export default class RoomBoxComponent extends Component {
 
     // Create new room
     createRoom(room) {
-        fetch('http://localhost:8080/room/create', {
+        fetch('/room/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

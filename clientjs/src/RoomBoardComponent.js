@@ -1,12 +1,8 @@
 import React, {Component} from 'react';
-import Footer from './footer/Footer'
 import './ChatBox.css';
 import './aside/Aside.css'
 import Room from "./menu-app-bar/Room";
 import Login from "./login/Login";
-import Toolbar from "./menu-app-bar/MenuAppBar";
-import AppBar from '@material-ui/core/AppBar';
-import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
 
@@ -29,7 +25,7 @@ export default class RoomBoardComponent extends Component {
 
 
     componentDidMount() {
-        fetch("http://localhost:8080/rooms/")
+        fetch("/rooms/")
             .then(res => res.json())
             .then(
                 (result) => {
@@ -90,7 +86,7 @@ export default class RoomBoardComponent extends Component {
             name: this.state.newRoom,
             password: this.state.newPassword === "" ? null : this.state.newPassword
         };
-        fetch('http://localhost:8080/room/create', {
+        fetch('/room/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -15,7 +15,7 @@ export default class Login extends Component {
             password: password === "" ? null : password
         };
 
-        fetch('http://localhost:8080/room/', {
+        fetch('/room/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

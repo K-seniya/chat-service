@@ -186,7 +186,7 @@ export default class ChatBoxComponent extends Component {
     }
 
     getMessages = () => {
-        fetch('http://localhost:8080/message/', {
+        fetch('/message/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
