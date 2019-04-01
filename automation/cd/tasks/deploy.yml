@@ -9,5 +9,5 @@ inputs:
   - name: build-output
 
 run:
-  path: ls
+  path: "chat-service/automation/cd/tasks/deploy.sh"
   args: ["build-output"]
