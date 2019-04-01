@@ -4,7 +4,7 @@ resources:
     source:
       uri: ((git-uri))
 
-    - name: deploy-cf
+  - name: deploy-cf
       type: cf
       source:
         api: https://api.run.pivotal.io
@@ -15,31 +15,6 @@ resources:
         skip_cert_check: false
 
 jobs:
-  - name: unit-test
-    plan:
-      - get: repo
-        trigger: true
-      - task: mvn-test
-        config:
-          platform: linux
-          image_resource:
-            type: docker-image
-            source:
-              repository: maven
-          inputs:
-            - name: repo
-          caches:
-            - path: repo/m2
-          run:
-            path: bash
-            args:
-              - -c
-              - |
-                set -e
-                cd repo
-                rm -rf ~/.m2
-                ln -fs $(pwd)/m2 ~/.m2
-                mvn test
   - name: build-and-deploy
     plan:
       - get: repo
@@ -74,4 +49,50 @@ jobs:
         params:
           manifest: repo/manifest.yml
           path: build/ROOT.jar
-          current_app_name: hello-servlet
+
+  - name: tag-master
+    plan:
+      - aggregate:
+          - get: repo
+            passed:
+              - deploy
+      - task: mvn-versions-set
+        params:
+          GIT_EMAIL: kseniyaKlochko@yahoo.com
+          GIT_NAME: K-senia
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: maven
+          inputs:
+            - name: repo
+          outputs:
+            - name: output
+          caches:
+            - path: repo/m2
+          run:
+            path: bash
+            args:
+              - -c
+              - |
+                set -e
+                VERSION=`cat repo/number`
+                cd repo
+                rm -rf ~/.m2
+                ln -fs $(pwd)/m2 ~/.m2
+                mvn versions:set -DnewVersion=${VERSION}
+                rm -f pom.xml.versionsBackup
+                shopt -s dotglob
+                shopt -s extglob
+                mv -f !(m2) ../output/
+                cd ../output
+                git config --global user.email "${GIT_EMAIL}"
+                git config --global user.name "${GIT_NAME}"
+                git add -A
+                git commit -m "Release ${VERSION}"
+      - put: repo
+        params:
+          repository: output
+          tag: repo/number
