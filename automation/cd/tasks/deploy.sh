@@ -1,5 +1,4 @@
 #!/bin/sh
 set -e
-cp -R chat-service/* build-output/
-cd build-output
-cf push -p *.jar
+VERSION=`cat repo/number`
+cf push -p build-output/chat-app-${VERSION}-SNAPSHOT.jar
